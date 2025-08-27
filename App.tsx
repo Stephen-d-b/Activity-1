@@ -34,7 +34,7 @@ export function MainScreen({ navigation }: any) {
       <View style={styles.mainPicture}>
         <Image
           style={styles.ImageSize}
-          source={require("./assets/reactnativelogo.png")}
+          source={require("./assets/react-native-1.png")}
         />
       </View>
 
