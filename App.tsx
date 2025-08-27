@@ -72,19 +72,20 @@ export function MainScreen({ navigation }: any) {
   );
 }
 
+// View Details Screen
 function ViewDetails({ route }: any) {
   const { NameSend, SurnameSend } = route.params;
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "blue",
-      }}
-    >
-      <Text style={{ fontSize: 35, color: "white" }}>
-        Name : {NameSend} Surname : {SurnameSend}
+    <View style={styles.container}>
+      <View style={styles.mainPicture}>
+        <Image
+          style={styles.ImageSize}
+          source={require("./assets/react-native-1.png")}
+        />
+      </View>
+      <Text style={styles.welcomeText}>User Information</Text>
+      <Text style={styles.detailsText}>
+        Name : {NameSend} {"\n"}Surname : {SurnameSend}
       </Text>
     </View>
   );
@@ -103,8 +104,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   ImageSize: {
-    width: 150,
-    height: 150,
+    width: 200, // increased size
+    height: 200,
     resizeMode: "contain",
   },
   welcomeText: {
@@ -133,5 +134,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     borderWidth: 1,
     borderColor: "#555555",
+  },
+  detailsText: {
+    fontSize: 22,
+    color: "#29d1fc",
+    fontWeight: "600",
+    textAlign: "center",
+    marginTop: 15,
   },
 });
