@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState,useRef,useEffect, use } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Animated } from "react-native";
 import {
   StyleSheet,
   Text,
@@ -8,7 +9,13 @@ import {
   View,
   Image,
   Button,
+  ScrollView,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+
+
+
 
 const Stack = createNativeStackNavigator();
 
@@ -22,7 +29,32 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
+//animation component
+const FadeInView = (props:any) => {
+  const FadeAnim = useRef(new Animated.Value(0)).current
+  
+  useEffect(()=> {
+    Animated.timing(
+      FadeAnim,
+      {
+        toValue: 1,
+        duration: 3000,
+        useNativeDriver: false
+      }
+    ).start();
+  },[FadeAnim])
+  
+  return (
+    <Animated.View
+    style={{
+      ...props.style,
+      opacity: FadeAnim
+    }}
+    >
+      {props.children}
+    </Animated.View>
+  );
+}
 // Home Screen
 export function MainScreen({ navigation }: any) {
   const [Name, setName] = useState("");
@@ -30,45 +62,52 @@ export function MainScreen({ navigation }: any) {
 
   console.log("App starting up now.");
   return (
+
     <View style={styles.container}>
-      <View style={styles.mainPicture}>
-        <Image
-          style={styles.ImageSize}
-          source={require("./assets/react-native-1.png")}
-        />
-      </View>
+      <SafeAreaView>
+        <ScrollView>
+          <View style={styles.mainPicture}>
 
-      <Text style={styles.welcomeText}>Welcome to your React App</Text>
+            <Image
+              style={styles.ImageSize}
+              source={require("./assets/react-native-1.png")}
+            />
+          </View>
 
-      <View style={styles.InputFlex}>
-        <Text style={styles.HeadingText}> Enter Name: </Text>
-        <TextInput
-          style={styles.InputBoxs}
-          placeholder="First Name"
-          onChangeText={(newText) => setName(newText)}
-        />
-      </View>
+          <Text style={styles.welcomeText}>Welcome to your React App</Text>
+          <FadeInView>
+          <View style={styles.InputFlex}>
+            <Text style={styles.HeadingText}> Enter Name: </Text>
+            <TextInput
+              style={styles.InputBoxs}
+              placeholder="First Name"
+              onChangeText={(newText) => setName(newText)}
+            />
+          </View>
 
-      <View style={styles.InputFlex}>
-        <Text style={styles.HeadingText}> Enter Surname: </Text>
-        <TextInput
-          style={styles.InputBoxs}
-          placeholder="Last Name"
-          onChangeText={(newText) => setSurname(newText)}
-        />
-      </View>
+          <View style={styles.InputFlex}>
+            <Text style={styles.HeadingText}> Enter Surname: </Text>
+            <TextInput
+              style={styles.InputBoxs}
+              placeholder="Last Name"
+              onChangeText={(newText) => setSurname(newText)}
+            />
+          </View>
 
-      <Button
-        title="Add User"
-        onPress={() => {
-          navigation.navigate("ViewDetails", {
-            NameSend: Name,
-            SurnameSend: Surname,
-          });
-          console.log("The user's name is:" + Name + " Surname:" + Surname);
-        }}
-      />
-    </View>
+          <Button
+            title="Add User"
+            onPress={() => {
+              navigation.navigate("ViewDetails", {
+                NameSend: Name,
+                SurnameSend: Surname,
+              });
+              console.log("The user's name is:" + Name + " Surname:" + Surname);
+            }}
+          />
+          </FadeInView>
+        </ScrollView>
+      </SafeAreaView>
+    </View >
   );
 }
 
